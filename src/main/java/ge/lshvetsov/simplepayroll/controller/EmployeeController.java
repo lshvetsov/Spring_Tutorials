@@ -2,7 +2,6 @@ package ge.lshvetsov.simplepayroll.controller;
 
 import ge.lshvetsov.simplepayroll.config.EmployeeLinkAssembler;
 import ge.lshvetsov.simplepayroll.model.Employee;
-import ge.lshvetsov.simplepayroll.repository.EmployeeRepository;
 import ge.lshvetsov.simplepayroll.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -19,11 +18,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class EmployeeController {
 
   private final EmployeeService service;
-  private final EmployeeRepository repository;
   private final EmployeeLinkAssembler linkAssembler;
 
   @GetMapping()
@@ -38,7 +37,7 @@ public class EmployeeController {
   }
 
   @PostMapping()
-  public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee newEmployee) {
+  public ResponseEntity<EntityModel<Employee>> create(@RequestBody Employee newEmployee) {
     EntityModel<Employee> employeeModel = linkAssembler.toModel(service.createEmployee(newEmployee));
     return ResponseEntity
       .created(employeeModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -51,7 +50,7 @@ public class EmployeeController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<EntityModel<Employee>> replaceEmployee (@RequestBody @NonNull Employee newEmployee, @PathVariable Long id) {
+  public ResponseEntity<EntityModel<Employee>> update(@RequestBody @NonNull Employee newEmployee, @PathVariable Long id) {
     EntityModel<Employee> employeeModel = linkAssembler.toModel(service.replace(newEmployee, id));
     return ResponseEntity
       .created(employeeModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

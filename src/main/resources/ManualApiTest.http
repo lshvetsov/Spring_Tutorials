@@ -1,0 +1,60 @@
+###
+GET http://localhost:8080/employees/3
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+GET http://localhost:8080/employees
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+GET http://localhost:8080/employees?withoutDismissed=true
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+### Add
+POST http://localhost:8080/employees
+Content-Type: application/json
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+{
+  "name": "Til Wol",
+  "role": "manager"
+}
+
+<> 2024-01-10T074831.201.json
+<> 2024-01-10T074703.201.json
+<> 2024-01-10T074416.201.json
+
+
+### Hire
+PUT http://localhost:8080/employees/3
+Content-Type: application/json
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+<> 2024-01-10T074835.200.json
+<> 2024-01-10T074529.200.json
+<> 2024-01-10T074459.200.json
+<> 2024-01-10T074433.200.json
+
+
+### Update
+PATCH http://localhost:8080/employees/3
+Content-Type: application/json
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+{
+  "name": "Til Wol",
+  "role": "janitor"
+}
+
+<> 2024-01-10T074840.201.json
+<> 2024-01-10T074728.201.json
+<> 2024-01-10T074515.201.json
+<> 2024-01-10T074441.201.json
+
+
+### Dismiss
+DELETE http://localhost:8080/employees/4
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+<> 2024-01-10T074532.200.json
+
