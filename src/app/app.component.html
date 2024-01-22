@@ -1,0 +1,13 @@
+<div class="main-page">
+  <div class="header">
+    <button class="button is-primary mr-3" routerLink="/create">Create Employee</button>
+    <div class="checkbox-container">
+      <label for="withoutDismissed">
+        <input type="checkbox" id="withoutDismissed" [(ngModel)]="withoutDismissed" (change)="onWithDismissedChange()">
+        Without dismissed employees
+      </label>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+

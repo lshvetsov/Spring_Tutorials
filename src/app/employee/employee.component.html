@@ -1,0 +1,21 @@
+<div class="employee-component">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <label>Employee</label>
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" class="form-control" formControlName="firstName">
+    </div>
+    <span *ngIf="employeeForm.get('firstName')?.errors">Please enter a first name</span>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" class="form-control" formControlName="lastName">
+    </div>
+    <span *ngIf="employeeForm.get('lastName')?.errors">Please enter a last name</span>
+    <div class="form-group">
+      <label for="role">Role:</label>
+      <input type="text" id="role" class="form-control" formControlName="role">
+    </div>
+    <span *ngIf="employeeForm.get('role')?.errors">Please enter a role</span>
+    <button type="submit">Save Changes</button>
+  </form>
+</div>
