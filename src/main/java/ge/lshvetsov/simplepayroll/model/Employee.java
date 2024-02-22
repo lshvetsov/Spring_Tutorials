@@ -1,6 +1,7 @@
 package ge.lshvetsov.simplepayroll.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -10,6 +11,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
+@EntityListeners(EmployeeNamespaceListener.class)
 public class Employee {
 
     @Id
@@ -19,6 +21,7 @@ public class Employee {
     private String lastName;
     private String role;
     private Status status;
+    private String namespace;
 
     public Employee(String firstName, String lastName, String role, Status status) {
         this.firstName = firstName;

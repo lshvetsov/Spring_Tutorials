@@ -1,19 +1,30 @@
 ###
-GET http://localhost:8080/employees/3
+GET http://localhost:8060
+
+###
+GET http://localhost:8060/csrf-token
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 ###
-GET http://localhost:8080/employees
+GET http://localhost:8060/employees/2
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 ###
-GET http://localhost:8080/employees?withoutDismissed=true
+GET http://localhost:8060/employees/2
+
+###
+GET http://localhost:8060/employees
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+GET http://localhost:8060/employees?withoutDismissed=true
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 ### Add
-POST http://localhost:8080/employees
+POST http://localhost:8060/employees
 Content-Type: application/json
 Authorization: Basic dXNlcjpwYXNzd29yZA==
+X-Csrf-Token: 3549e7b1-8c97-48c1-9056-a818a564be34
 
 {
   "name": "Til Wol",
@@ -21,12 +32,9 @@ Authorization: Basic dXNlcjpwYXNzd29yZA==
 }
 
 <> 2024-01-10T074831.201.json
-<> 2024-01-10T074703.201.json
-<> 2024-01-10T074416.201.json
-
 
 ### Hire
-PUT http://localhost:8080/employees/3
+PUT http://localhost:8060/employees/3
 Content-Type: application/json
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
@@ -37,7 +45,7 @@ Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 
 ### Update
-PATCH http://localhost:8080/employees/3
+PATCH http://localhost:8060/employees/3
 Content-Type: application/json
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
@@ -53,7 +61,7 @@ Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 
 ### Dismiss
-DELETE http://localhost:8080/employees/4
+DELETE http://localhost:8060/employees/4
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 
 <> 2024-01-10T074532.200.json

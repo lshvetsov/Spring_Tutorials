@@ -12,6 +12,7 @@ export class EmployeeService {
 
   employees:Employee[] = [];
   private url:string = environment.apiUrl
+  private password:string = environment.password
 
   constructor(private loggingService: LoggingService, private http: HttpClient) {}
 
@@ -21,7 +22,13 @@ export class EmployeeService {
 
   updateEmployees(): Observable<Employee[]> {
     this.loggingService.logEvent('Fetch employees')
-    return this.http.get<{ _embedded: { employeeList: Employee[]}}>(this.url).pipe(
+    return this.http.get<{ _embedded: { employeeList: Employee[]}}>(
+      this.url,
+      {
+        headers: new HttpHeaders({'Authorization': this.getAuthHeader(this.password)}),
+        withCredentials: true}
+    )
+      .pipe(
         tap(responseData => this.loggingService.logEvent(responseData)),
         map(responseData => this.employees = responseData._embedded.employeeList.map(
             employee => {
@@ -51,8 +58,10 @@ export class EmployeeService {
       observe: 'response',
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': this.url, // Replace with your API server origin
-      })
+        'Authorization': this.getAuthHeader(this.password),
+        'X-XSRF-TOKEN': this.getToken()
+      }),
+      withCredentials: true
     }).pipe(
       tap(responseData => this.loggingService.logEvent(responseData)),
       map(response => {
@@ -88,7 +97,13 @@ export class EmployeeService {
     this.loggingService.logEvent('Updating an employee')
     const url = `${this.url}/${employee.id}`
     this.http.patch<Employee>(url, employee, {
-      observe: 'response'
+      observe: 'response',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': this.url,
+        'Authorization': this.getAuthHeader(this.password),
+        'X-XSRF-TOKEN': this.getToken()
+      })
     }).pipe(
       tap(responseData => this.loggingService.logEvent(responseData)),
       map(response => {
@@ -109,7 +124,13 @@ export class EmployeeService {
     this.loggingService.logEvent(`Dismissing the employee with ${id}`)
     const url = `${this.url}/${id}`
     this.http.delete<Employee>(url, {
-      observe: 'response'
+      observe: 'response',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': this.url,
+        'Authorization': this.getAuthHeader(this.password),
+        'X-XSRF-TOKEN': this.getToken()
+      })
     }).pipe(
       tap(responseData => this.loggingService.logEvent(responseData)),
       map(() => this.employees.filter(employee => employee.id === id).map(
@@ -118,6 +139,20 @@ export class EmployeeService {
       )),
       catchError(error => throwError(() => error))
     ).subscribe()
+  }
+  private getToken(): string {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name.trim() === 'XSRF-TOKEN') {
+          return value.trim();
+        }
+      }
+      return ''
+  }
+
+  private getAuthHeader(password: string): string {
+    return 'Basic ' + btoa(`${environment.username}:${password}`)
   }
 }
 
@@ -135,3 +170,5 @@ function mapStatusToEnum(status: string): EmployeeStatus {
     return EmployeeStatus.HIRING; // Default value or appropriate handling
   }
 }
+
+

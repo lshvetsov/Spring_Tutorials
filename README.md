@@ -14,6 +14,10 @@ All operations to test: ```src/main/resources/ManualApiTest.http```
 - Spring Security: default password in the application settings and CSRF and CORS filter to ```localhost:4200```
 - In-memory DB
 - REST API on port 8080
+- Environment variables:
+  PAYROLL_API_PASS - password for a basic authentication call the API
+  PAYROLL_GITHUB_CLIENTID - clientid for OAuth authentication with GitHub
+  PAYROLL_GITHUB_CLIENT_SECRET - client secret for OAuth authentication with GitHub
 
 **Run**
 Standard IDEA run profile or CLI (JAVA_HOME should point to java 17 installation)
@@ -37,3 +41,9 @@ Simple web form that supports use-cases of the Simple payroll application.
 ./ng build                       
 ./ng.cmd serve                   # run on localhost:4200
 ```
+
+**TODO**
+- Spring: set up the CORS properly
+- Angular: implement registration/login functionality 
+- Spring: implement a custom user repo and split access by user/namespaces
+- Angular/Spring: implement OAuth authentication with GitHub
